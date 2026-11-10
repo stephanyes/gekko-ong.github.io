@@ -114,15 +114,19 @@
        HEADER (Corrección de paddings y contenedores)
        ========================================================================== */
     .site-header {
-      position: relative;
-      z-index: 30;
+      position: sticky;
+      top: 0;
+      z-index: 50;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: calc(32 * var(--s)) calc(40 * var(--s)) 0;
+      padding: calc(20 * var(--s)) calc(80 * var(--s));
+      background-color: var(--glass-fill);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
 
     .brand-logo {
@@ -152,16 +156,16 @@
     .main-nav {
       display: flex;
       align-items: center;
-      gap: calc(40 * var(--s));
+      gap: calc(46 * var(--s));
     }
 
     .nav-item {
-      font-size: calc(20 * var(--s));
+      font-size: calc(22 * var(--s));
       font-weight: 500;
       color: var(--ink);
       text-decoration: none;
       transition: opacity 0.2s ease, transform 0.2s ease;
-      opacity: 0.85;
+      opacity: 0.9;
       position: relative;
     }
 
@@ -174,7 +178,7 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: calc(16 * var(--s));
+      gap: calc(18 * var(--s));
       flex-shrink: 0;
     }
 
@@ -224,8 +228,8 @@
     }
 
     .pill-secondary {
-      font-size: calc(16 * var(--s));
-      padding: calc(12 * var(--s)) calc(24 * var(--s));
+      font-size: calc(18 * var(--s));
+      padding: calc(15 * var(--s)) calc(28 * var(--s));
       background-color: var(--btn-secondary);
       color: var(--ink);
       backdrop-filter: blur(12px);
@@ -238,8 +242,8 @@
     }
 
     .pill-primary {
-      font-size: calc(16 * var(--s));
-      padding: calc(12 * var(--s)) calc(28 * var(--s));
+      font-size: calc(18 * var(--s));
+      padding: calc(15 * var(--s)) calc(32 * var(--s));
       background-color: var(--ink);
       color: var(--bg-page);
     }
@@ -929,8 +933,8 @@
     <!-- Center Links -->
     <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
       <a href="index.html#asociacion" class="nav-item">La Asociación</a>
-      <a href="index.html#heroStage" class="nav-item">Genéticas</a>
-      <a href="index.html#heroStage" class="nav-item">Cultivo</a>
+      <a href="geneticas.html" class="nav-item">Genéticas</a>
+      <a href="cultivos.html" class="nav-item">Cultivo</a>
       <a href="index.html#faq" class="nav-item">Preguntas Frecuentes</a>
       <a href="index.html#contacto" class="nav-item">Contacto</a>
     </nav>
@@ -955,8 +959,8 @@
   <!-- Mobile Drawer -->
   <div class="mobile-menu-drawer" id="mobileDrawer" aria-hidden="true">
     <a href="index.html#asociacion" class="mobile-nav-link">La Asociación</a>
-    <a href="index.html#heroStage" class="mobile-nav-link">Genéticas</a>
-    <a href="index.html#heroStage" class="mobile-nav-link">Cultivo</a>
+    <a href="geneticas.html" class="mobile-nav-link">Genéticas</a>
+    <a href="cultivos.html" class="mobile-nav-link">Cultivo</a>
     <a href="index.html#faq" class="mobile-nav-link">Preguntas Frecuentes</a>
     <a href="index.html#contacto" class="mobile-nav-link">Contacto</a>
     <div class="mobile-actions">
@@ -1108,8 +1112,8 @@
             <ul class="footer-nav-list">
               <li><a href="index.html#heroStage" class="footer-nav-link">Inicio</a></li>
               <li><a href="index.html#asociacion" class="footer-nav-link">La Asociación</a></li>
-              <li><a href="index.html#heroStage" class="footer-nav-link">Genéticas</a></li>
-              <li><a href="index.html#heroStage" class="footer-nav-link">Cultivo</a></li>
+              <li><a href="geneticas.html" class="footer-nav-link">Genéticas</a></li>
+              <li><a href="cultivos.html" class="footer-nav-link">Cultivo</a></li>
               <li><a href="index.html#faq" class="footer-nav-link">FAQs</a></li>
             </ul>
           </div>
