@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gekko Club Social — Fitoterapia, Bienestar Integral & Protocolo Legal</title>
 
+  <!-- Script anti-parpadeo de tema (Anti-FOUC) -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('gekko-theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
   <!-- Typography: Neo-grotesk (Plus Jakarta Sans) & Refined Geometric (Outfit) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,6 +30,10 @@
     :root {
       --s: max(0.55px, min(calc(100vw / 2048), calc(100vh / 1152)));
       --bg-page: #F8F9F6;
+      --bg-card: #FFFFFF;
+      --bg-input: #FAFAFA;
+      --bg-dark-panel: #1A382B;
+      --text-dark-panel: #F8F9F6;
       --ink: #1A382B;
       --ink-muted: rgba(26, 56, 43, 0.72);
       --border-subtle: rgba(26, 56, 43, 0.10);
@@ -27,11 +42,26 @@
       --accent-dim: rgba(212, 163, 89, 0.45);
       --accent-hover: rgba(212, 163, 89, 0.05);
       --ghost-hover: rgba(212, 163, 89, 0.10);
-      --glass-fill: rgba(248, 249, 246, 0.65);
+      --glass-fill: rgba(248, 249, 246, 0.82);
       --glass-border: rgba(26, 56, 43, 0.14);
       --btn-secondary: rgba(26, 56, 43, 0.15);
       --font-ui: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --font-geom: "Outfit", sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #0B1913;
+      --bg-card: #13261E;
+      --bg-input: #1A3328;
+      --bg-dark-panel: #07120D;
+      --text-dark-panel: #F8F9F6;
+      --ink: #F8F9F6;
+      --ink-muted: rgba(248, 249, 246, 0.72);
+      --border-subtle: rgba(248, 249, 246, 0.12);
+      --border-divider: rgba(248, 249, 246, 0.15);
+      --glass-fill: rgba(11, 25, 19, 0.88);
+      --glass-border: rgba(248, 249, 246, 0.15);
+      --btn-secondary: rgba(248, 249, 246, 0.12);
     }
 
     *, *::before, *::after {
@@ -55,6 +85,7 @@
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
       overflow-y: auto;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     /* ==========================================================================
@@ -94,6 +125,27 @@
       mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 62%, #000 100%);
     }
 
+    /* Dark Mode Overlay on Backdrop Image to prevent blinding white backgrounds */
+    [data-theme="dark"] .backdrop-container::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(11, 25, 19, 0.95) 0%,
+        rgba(11, 25, 19, 0.55) 50%,
+        rgba(11, 25, 19, 0.8) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(11, 25, 19, 0.85) 0%,
+        transparent 30%,
+        rgba(11, 25, 19, 0.85) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
     .backdrop-media {
       position: absolute;
       top: 0;
@@ -102,6 +154,11 @@
       height: 100%;
       object-fit: cover;
       object-position: right center;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    [data-theme="dark"] .backdrop-media {
+      filter: brightness(0.85) contrast(1.1);
     }
 
     .hero-video-wrap {
@@ -121,15 +178,21 @@
       opacity: 0;
     }
 
-    /* Header Navigation */
+    /* Header Navigation - FIXED / FROSTED GLASS FOR DARK MODE VISIBILITY */
     .site-header {
-      position: relative;
-      z-index: 20;
+      position: sticky;
+      top: 0;
+      z-index: 50;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: calc(48 * var(--s)) calc(80 * var(--s)) 0;
+      padding: calc(20 * var(--s)) calc(80 * var(--s));
+      background-color: var(--glass-fill);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
 
     .brand-logo {
@@ -167,7 +230,7 @@
       color: var(--ink);
       text-decoration: none;
       transition: opacity 0.2s ease, transform 0.2s ease;
-      opacity: 0.85;
+      opacity: 0.9;
       position: relative;
     }
 
@@ -181,6 +244,37 @@
       align-items: center;
       gap: calc(18 * var(--s));
     }
+
+    .theme-toggle-btn {
+      width: calc(44 * var(--s));
+      height: calc(44 * var(--s));
+      border-radius: 50%;
+      background-color: var(--btn-secondary);
+      color: var(--ink);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: rgba(212, 163, 89, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .theme-icon {
+      width: calc(20 * var(--s));
+      height: calc(20 * var(--s));
+      stroke: currentColor;
+    }
+
+    .sun-icon { display: none; }
+    .moon-icon { display: block; }
+    
+    [data-theme="dark"] .sun-icon { display: block; }
+    [data-theme="dark"] .moon-icon { display: none; }
 
     .pill-btn {
       display: inline-flex;
@@ -206,7 +300,7 @@
     }
 
     .pill-secondary:hover {
-      background-color: rgba(26, 56, 43, 0.24);
+      background-color: rgba(212, 163, 89, 0.25);
       transform: translateY(-1px);
     }
 
@@ -218,7 +312,7 @@
     }
 
     .pill-primary:hover {
-      background-color: #244b3a;
+      opacity: 0.9;
       transform: translateY(-1px);
     }
 
@@ -255,7 +349,7 @@
       justify-content: space-between;
       width: 100%;
       height: 100%;
-      padding: 0 calc(80 * var(--s)) calc(50 * var(--s));
+      padding: calc(30 * var(--s)) calc(80 * var(--s)) calc(50 * var(--s));
       pointer-events: none;
     }
 
@@ -419,12 +513,34 @@
     }
 
     @media (max-width: 820px) {
+      .site-header {
+        padding: 16px 20px;
+      }
+
       .main-nav, .header-actions {
         display: none;
       }
 
       .burger-btn {
         display: flex;
+      }
+
+      .theme-toggle-btn {
+        width: 44px;
+        height: 44px;
+      }
+      .theme-icon {
+        width: 20px;
+        height: 20px;
+      }
+      .theme-toggle-btn-mobile {
+        width: 100%;
+        border-radius: 9999px;
+        height: auto;
+        padding: 14px;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 16px;
       }
 
       .mobile-menu-drawer {
@@ -435,7 +551,7 @@
         gap: 24px;
         position: fixed;
         inset: 0;
-        background: rgba(248, 249, 246, 0.94);
+        background: var(--bg-page);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
         z-index: 40;
@@ -480,7 +596,7 @@
       }
 
       .site-header {
-        padding: 24px 24px 0;
+        padding: 16px 20px;
       }
 
       .content-stage {
@@ -549,7 +665,7 @@
       }
 
       .copy-zone {
-        background-color: rgba(248, 249, 246, 0.80);
+        background-color: var(--glass-fill);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid var(--border-divider);
@@ -592,11 +708,10 @@
       object-fit: cover;
       border-radius: 20px;
       border: 1px solid var(--border-subtle);
-      background-color: #ECEEEA;
+      background-color: var(--bg-card);
       display: block;
     }
 
-    /* Starts halfway down the left image on desktop */
     .asociacion-col-right {
       display: flex;
       flex-direction: column;
@@ -625,11 +740,10 @@
       object-fit: cover;
       border-radius: 16px;
       border: 1px solid var(--border-subtle);
-      background-color: #ECEEEA;
+      background-color: var(--bg-card);
       display: block;
     }
 
-    /* Tablet and Mobile adjustments for Asociación */
     @media (max-width: 1024px) {
       .asociacion-section {
         padding: 6rem 2rem 4rem;
@@ -657,7 +771,6 @@
         margin-bottom: 2.5rem;
       }
 
-      /* Stack vertically with text first, then images */
       .asociacion-grid {
         display: flex;
         flex-direction: column;
@@ -737,7 +850,6 @@
       color: var(--ink);
     }
 
-    /* Grid Layout: Accordion (Left) + Sticky Protocol Card (Right) */
     .faq-grid {
       display: grid;
       grid-template-columns: 1fr 280px;
@@ -857,18 +969,18 @@
 
     .protocol-sticky-wrapper {
       position: sticky;
-      top: 2.5rem;
+      top: 5rem;
     }
 
     .protocol-card {
-      background-color: var(--ink);
+      background-color: var(--bg-dark-panel);
       border-radius: 16px;
       padding: 2.5rem 1.75rem;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: var(--bg-page);
+      color: var(--text-dark-panel);
     }
 
     .shield-icon {
@@ -897,7 +1009,7 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       line-height: 1.5;
-      color: var(--bg-page);
+      color: var(--text-dark-panel);
       margin-bottom: 1.25rem;
     }
 
@@ -917,7 +1029,7 @@
 
     /* Bottom Contact Panel */
     .contact-panel {
-      background-color: var(--ink);
+      background-color: var(--bg-dark-panel);
       border-radius: 16px;
       padding: 2.5rem 3rem;
       display: flex;
@@ -944,7 +1056,7 @@
     .contact-paragraph {
       font-size: 1.0625rem;
       line-height: 1.5;
-      color: var(--bg-page);
+      color: var(--text-dark-panel);
       font-weight: 400;
     }
 
@@ -963,7 +1075,7 @@
       gap: 0.65rem;
       background-color: transparent;
       border: 1px solid var(--accent);
-      color: var(--bg-page);
+      color: var(--text-dark-panel);
       text-decoration: none;
       font-family: inherit;
       font-size: 0.75rem;
@@ -998,9 +1110,9 @@
        ========================================================================== */
     .site-footer {
       position: relative;
-      background-color: var(--ink);
-      color: var(--bg-page);
-      border-top: 1px solid rgba(212, 163, 89, 0.15); /* Hairline 15% Amber Gold */
+      background-color: var(--bg-dark-panel);
+      color: var(--text-dark-panel);
+      border-top: 1px solid rgba(212, 163, 89, 0.15);
       padding: 4rem 2rem 2.5rem;
       width: 100%;
     }
@@ -1049,7 +1161,7 @@
       font-weight: 700;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--bg-page);
+      color: var(--text-dark-panel);
       line-height: 1.1;
     }
 
@@ -1124,7 +1236,7 @@
       align-items: center;
       justify-content: center;
       border: 1px solid var(--accent);
-      color: var(--bg-page);
+      color: var(--text-dark-panel);
       background: transparent;
       padding: 0.55rem 1.15rem;
       border-radius: 9999px;
@@ -1392,28 +1504,7 @@
        ======================================================================== -->
   <main class="hero-stage" id="heroStage">
 
-    <!-- Photographic & Ambient Video Backdrop -->
-    <div class="backdrop-viewport" aria-hidden="true">
-      <div class="backdrop-container">
-        <!-- Premium macro photograph of trichome-heavy cannabis flower (Cuban Affair) -->
-        <picture>
-          <source media="(orientation: portrait)" srcset="./cogollo-mobile.jpeg">
-          <img
-            id="heroPhoto"
-            class="backdrop-media"
-            src="./cogollo.jpeg"
-            alt="Fotografía macro botánica de flor de cannabis con abundantes tricomas cristalinos (Cuban Affair) sobre fondo blanco neutro"
-          />
-        </picture>
-
-        <div class="hero-video-wrap" id="videoWrap">
-          <video id="vidA" class="crossfade-video" muted playsinline preload="auto" src="[URL_PLACEHOLDER]"></video>
-          <video id="vidB" class="crossfade-video" muted playsinline preload="auto" src="[URL_PLACEHOLDER]"></video>
-        </div>
-      </div>
-    </div>
-
-    <!-- Navigation Header -->
+    <!-- Header Navigation - FROSTED GLASS STICKY HEADER -->
     <header class="site-header" id="siteHeader">
       <!-- Logo: Amber drop + negative-space 4-toed gecko footprint -->
       <a href="#heroStage" class="brand-logo" id="brandLogo" aria-label="Gekko Club Social Inicio">
@@ -1453,8 +1544,12 @@
 
       <!-- Right Header Actions -->
       <div class="header-actions" id="headerActions">
+        <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <a href="https://wa.me/5491199999999?text=Hola%20Gekko%2C%20soy%20socio%20y%20deseo%20acceder" target="_blank" rel="noopener noreferrer" class="pill-btn pill-secondary">Acceso Socios</a>
-        <a href="#faq" class="pill-btn pill-primary">Asociarse</a>
+        <a href="asociarse.html" class="pill-btn pill-primary">Asociarse</a>
       </div>
 
       <!-- Hamburger Button -->
@@ -1464,6 +1559,27 @@
       </button>
     </header>
 
+    <!-- Photographic & Ambient Video Backdrop -->
+    <div class="backdrop-viewport" aria-hidden="true">
+      <div class="backdrop-container">
+        <!-- Premium macro photograph of trichome-heavy cannabis flower (Cuban Affair) -->
+        <picture>
+          <source media="(orientation: portrait)" srcset="./cogollo-mobile.jpeg">
+          <img
+            id="heroPhoto"
+            class="backdrop-media"
+            src="./cogollo.jpeg"
+            alt="Fotografía macro botánica de flor de cannabis con abundantes tricomas cristalinos (Cuban Affair) sobre fondo blanco neutro"
+          />
+        </picture>
+
+        <div class="hero-video-wrap" id="videoWrap">
+          <video id="vidA" class="crossfade-video" muted playsinline preload="auto" src="[URL_PLACEHOLDER]"></video>
+          <video id="vidB" class="crossfade-video" muted playsinline preload="auto" src="[URL_PLACEHOLDER]"></video>
+        </div>
+      </div>
+    </div>
+
     <!-- Mobile Drawer -->
     <div class="mobile-menu-drawer" id="mobileDrawer" aria-hidden="true">
       <a href="#asociacion" class="mobile-nav-link">La Asociación</a>
@@ -1472,8 +1588,13 @@
       <a href="#faq" class="mobile-nav-link">Preguntas Frecuentes</a>
       <a href="#contacto" class="mobile-nav-link">Contacto</a>
       <div class="mobile-actions">
+        <button type="button" class="theme-toggle-btn theme-toggle-btn-mobile pill-btn pill-secondary" id="themeToggleMobile" aria-label="Cambiar tema">
+          <span>Modo Oscuro / Claro</span>
+          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <a href="https://wa.me/5491199999999?text=Hola%20Gekko%2C%20soy%20socio%20y%20deseo%20acceder" target="_blank" rel="noopener noreferrer" class="pill-btn pill-secondary">Acceso Socios</a>
-        <a href="#faq" class="pill-btn pill-primary">Asociarse</a>
+        <a href="asociarse.html" class="pill-btn pill-primary">Asociarse</a>
       </div>
     </div>
 
@@ -1498,7 +1619,7 @@
           Cultivo colaborativo y fitoterapia de alta calidad. Genéticas meticulosamente seleccionadas y entregas seguras en CABA exclusivas para nuestros socios.
         </p>
 
-        <a href="#faq" class="pill-btn pill-primary hero-cta" id="heroCta">Solicitar Admisión</a>
+        <a href="asociarse.html" class="pill-btn pill-primary hero-cta" id="heroCta">Solicitar Admisión</a>
       </div>
 
       <!-- 3 Glass Information Cards -->
@@ -1694,7 +1815,7 @@
           <div class="accordion-panel" id="faq-panel-5" role="region" aria-labelledby="faq-header-5">
             <div class="accordion-content">
               <div class="accordion-body">
-                No. Gekko no es un dispensario comercial ni un growshop. Operamos estrictamente a puertas cerradas proveyendo fitoterapia de alta calidad únicamente a nuestros socios activos.
+                No. Gekko no es un dispensario comercial ni un growshop. Operamos strictly a puertas cerradas proveyendo fitoterapia de alta calidad únicamente a nuestros socios activos.
               </div>
             </div>
           </div>
@@ -1734,7 +1855,7 @@
           <span class="protocol-label">PROTOCOLO DE ACCESO</span>
           <p class="protocol-main-text">ACCESO EXCLUSIVO PARA SOCIOS CON REPROCANN ACTIVO</p>
           <div class="protocol-divider" aria-hidden="true"></div>
-          <p class="protocol-footer-text">Información orientada estrictamente a personas registradas bajo el marco legal vigente.</p>
+          <p class="protocol-footer-text">Información orientada strictly a personas registradas bajo el marco legal vigente.</p>
         </div>
       </aside>
 
@@ -1784,13 +1905,11 @@
   <footer class="site-footer" id="footer">
     <div class="footer-inner">
 
-      <!-- Desktop Grid: Left 4 cols (Brand) + Right 8 cols (4-Col Sub-grid) -->
       <div class="footer-main-grid">
 
         <!-- 1. Left Area: Brand -->
         <div class="footer-brand-area">
           <div class="footer-brand-header">
-            <!-- 48px Gekko amber drop logo -->
             <svg class="footer-logo-glyph" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <mask id="footerGeckoMask">
@@ -1827,7 +1946,6 @@
         <!-- 2. Right Area: 4-Column Sub-grid -->
         <div class="footer-nav-subgrid">
 
-          <!-- Col A: Navegación -->
           <div class="footer-col">
             <h3 class="footer-col-header">NAVEGACIÓN</h3>
             <ul class="footer-nav-list">
@@ -1839,7 +1957,6 @@
             </ul>
           </div>
 
-          <!-- Col B: Admisión -->
           <div class="footer-col">
             <h3 class="footer-col-header">CUPOS Y ACCESO</h3>
             <p class="footer-text-block">Información sobre requisitos de ingreso y vinculación.</p>
@@ -1853,7 +1970,6 @@
             </a>
           </div>
 
-          <!-- Col C: Contacto -->
           <div class="footer-col">
             <h3 class="footer-col-header">CONTACTO</h3>
             <p class="footer-contact-item">CABA, Buenos Aires</p>
@@ -1865,7 +1981,6 @@
             </p>
           </div>
 
-          <!-- Col D: Legal -->
           <div class="footer-col">
             <h3 class="footer-col-header">LEGAL</h3>
             <p class="footer-text-block">
@@ -1877,7 +1992,6 @@
 
       </div>
 
-      <!-- Sub-footer Bottom Bar: 3 Sections -->
       <div class="footer-bottom-bar">
         <div class="bottom-bar-left">
           <svg class="bottom-bar-left-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -1898,12 +2012,25 @@
     </div>
   </footer>
 
-  <!-- ========================================================================
-       Vanilla JS Orchestration
-       ======================================================================== -->
+  <!-- Vanilla JS Orchestration -->
   <script>
     (function() {
       const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Dark Mode Switcher logic
+      const themeToggles = document.querySelectorAll('#themeToggle, #themeToggleMobile');
+      themeToggles.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('gekko-theme', 'light');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('gekko-theme', 'dark');
+          }
+        });
+      });
 
       // 1. Mobile Drawer Navigation Toggle
       const burgerToggle = document.getElementById('burgerToggle');
@@ -1924,7 +2051,7 @@
         });
       }
 
-      // 2. Video Loop Crossfade Engine (4s total loop, 1s crossfade)
+      // 2. Video Loop Crossfade Engine
       const videoWrap = document.getElementById('videoWrap');
       const vidA = document.getElementById('vidA');
       const vidB = document.getElementById('vidB');
@@ -1962,7 +2089,6 @@
         vidA.addEventListener('timeupdate', () => handleCrossfade(vidA, vidB));
         vidB.addEventListener('timeupdate', () => handleCrossfade(vidB, vidA));
 
-        // Silent graceful fallback if [URL_PLACEHOLDER] is not loaded
         vidA.addEventListener('error', () => { if (videoWrap) videoWrap.style.display = 'none'; });
         vidB.addEventListener('error', () => { if (videoWrap) videoWrap.style.display = 'none'; });
       }
@@ -2076,7 +2202,6 @@
           }
         });
 
-        // Cancel animations cleanly to return all styles to authored CSS
         Promise.all(animations.map(anim => anim.finished)).then(() => {
           animations.forEach(anim => anim.cancel());
         });
