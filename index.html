@@ -125,7 +125,7 @@
       mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 62%, #000 100%);
     }
 
-    /* Dark Mode Overlay on Backdrop Image to prevent blinding white backgrounds */
+    /* Dark Mode Overlay on Backdrop Image */
     [data-theme="dark"] .backdrop-container::after {
       content: "";
       position: absolute;
@@ -133,8 +133,8 @@
       background: linear-gradient(
         to right,
         rgba(11, 25, 19, 0.95) 0%,
-        rgba(11, 25, 19, 0.55) 50%,
-        rgba(11, 25, 19, 0.8) 100%
+        rgba(11, 25, 19, 0.45) 50%,
+        rgba(11, 25, 19, 0.75) 100%
       ),
       linear-gradient(
         to bottom,
@@ -144,6 +144,27 @@
       );
       pointer-events: none;
       z-index: 2;
+    }
+
+    /* Alternancia de Imagen entre Light Mode y Dark Mode */
+    .backdrop-media-wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .dark-only {
+      display: none !important;
+    }
+
+    [data-theme="dark"] .light-only {
+      display: none !important;
+    }
+
+    [data-theme="dark"] .dark-only {
+      display: block !important;
     }
 
     .backdrop-media {
@@ -157,8 +178,9 @@
       transition: filter 0.3s ease, opacity 0.3s ease;
     }
 
-    [data-theme="dark"] .backdrop-media {
-      filter: brightness(0.85) contrast(1.1);
+    .dark-bud-img {
+      mix-blend-mode: screen;
+      filter: brightness(1.08) contrast(1.12);
     }
 
     .hero-video-wrap {
@@ -675,7 +697,7 @@
     }
 
     /* ==========================================================================
-       NEW SECTION: LA ASOCIACIÓN (Botanical Journal Editorial Layout)
+       SECTION: LA ASOCIACIÓN (Botanical Journal Editorial Layout)
        ========================================================================== */
     .asociacion-section {
       position: relative;
@@ -1562,14 +1584,26 @@
     <!-- Photographic & Ambient Video Backdrop -->
     <div class="backdrop-viewport" aria-hidden="true">
       <div class="backdrop-container">
-        <!-- Premium macro photograph of trichome-heavy cannabis flower (Cuban Affair) -->
-        <picture>
-          <source media="(orientation: portrait)" srcset="./cogollo-mobile.jpeg">
+        
+        <!-- Imagen para Light Mode -->
+        <picture class="backdrop-media-wrap light-only">
+          <source media="(orientation: portrait)" srcset="./cogollo_light.jpeg">
           <img
             id="heroPhoto"
             class="backdrop-media"
-            src="./cogollo.jpeg"
+            src="./cogollo_light.jpeg"
             alt="Fotografía macro botánica de flor de cannabis con abundantes tricomas cristalinos (Cuban Affair) sobre fondo blanco neutro"
+          />
+        </picture>
+
+        <!-- Imagen para Dark Mode con fusion transparente de fondo negro -->
+        <picture class="backdrop-media-wrap dark-only">
+          <source media="(orientation: portrait)" srcset="./cogollo_dark.jpeg">
+          <img
+            id="heroPhotoDark"
+            class="backdrop-media dark-bud-img"
+            src="./cogollo_dark.jpeg"
+            alt="Fotografía macro botánica de flor de cannabis con tricomas deslumbrantes en fondo oscuro"
           />
         </picture>
 
