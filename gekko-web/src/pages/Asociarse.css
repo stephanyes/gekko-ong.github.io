@@ -1,0 +1,270 @@
+/* src/pages/Asociarse.css */
+
+/* Variables locales específicas del formulario en esta página */
+:root {
+  --form-bg: #FFFFFF;
+  --form-border: rgba(26, 56, 43, 0.18);
+  --form-ink: #1A382B;
+  --form-ink-muted: rgba(26, 56, 43, 0.80);
+  --form-input-bg: #EBE8E0;
+  --form-input-border: rgba(26, 56, 43, 0.15);
+  --form-input-placeholder: rgba(26, 56, 43, 0.50);
+  --form-btn-bg: #1A382B;
+  --form-btn-ink: #F3F0E6;
+}
+
+[data-theme="dark"] {
+  --form-bg: #13261E;
+  --form-border: rgba(248, 249, 246, 0.14);
+  --form-ink: #F8F9F6;
+  --form-ink-muted: rgba(248, 249, 246, 0.70);
+  --form-input-bg: #1A3328;
+  --form-input-border: rgba(248, 249, 246, 0.14);
+  --form-input-placeholder: rgba(248, 249, 246, 0.45);
+  --form-btn-bg: #F8F9F6;
+  --form-btn-ink: #1A382B;
+}
+
+/* Main Split Layout */
+.admissions-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.admissions-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.admissions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.admissions-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.admissions-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.eyebrow-text {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.admissions-headline {
+  font-family: var(--font-geom);
+  font-size: clamp(2.75rem, 4.5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 2rem;
+}
+
+.admissions-paragraph {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  max-width: 540px;
+}
+
+/* Tarjeta y Formulario */
+.form-card {
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: 20px;
+  padding: 2.25rem 2.5rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--form-border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-header-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.form-header-title {
+  font-family: var(--font-geom);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--form-ink);
+  letter-spacing: -0.02em;
+}
+
+.admissions-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--form-ink-muted);
+  margin-bottom: 0.55rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--form-input-border);
+  background-color: var(--form-input-bg);
+  color: var(--form-ink);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  padding: 0.85rem 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--form-input-placeholder);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--accent);
+  background-color: #FFFFFF;
+}
+
+[data-theme="dark"] .form-input:focus,
+[data-theme="dark"] .form-select:focus,
+[data-theme="dark"] .form-textarea:focus {
+  background-color: rgba(26, 56, 43, 0.6);
+}
+
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23D4A359' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px;
+  cursor: pointer;
+}
+
+.form-textarea {
+  min-height: 95px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.form-submit-btn {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 1.1rem 2.5rem;
+  background-color: var(--form-btn-bg);
+  color: var(--form-btn-ink);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.2s ease, background-color 0.3s ease;
+}
+
+.form-submit-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.form-submit-btn:disabled {
+  cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .admissions-main {
+    padding: 4.5rem 1.5rem 5rem;
+  }
+
+  .admissions-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .admissions-headline {
+    font-size: clamp(2.35rem, 6.5vw, 3.25rem);
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-card {
+    padding: 2.25rem 1.5rem;
+  }
+
+  .form-row-split {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-footer {
+    justify-content: stretch;
+  }
+
+  .form-submit-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
