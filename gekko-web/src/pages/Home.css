@@ -32,8 +32,8 @@
   max-width: calc(100vh * 2);
   margin: 0 auto;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 62%, #000 100%);
-  mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 62%, #000 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 34%, #000 68%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, transparent 34%, #000 68%, #000 100%);
 }
 
 [data-theme="dark"] .backdrop-container::after {
@@ -417,12 +417,13 @@
   }
 
   .copy-zone {
-    background: rgba(11, 25, 19, 0.45) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(248, 249, 246, 0.15);
+    background-color: var(--glass-fill);
+    backdrop-filter: blur(20px) saturate(130%);
+    -webkit-backdrop-filter: blur(20px) saturate(130%);
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 18px 16px;
+    padding: 20px 18px;
+    transform: translateZ(0);
   }
 }
 /* ==========================================================================
