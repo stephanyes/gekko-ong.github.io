@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import './Asociarse.css';
 
 export default function Asociarse() {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     nombre: '',
-    telefono: '',
+    codigoArea: '',
+    celular: '',
     email: '',
     reprocann: '',
     asunto: '',
@@ -16,6 +17,11 @@ export default function Asociarse() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'codigoArea' || name === 'celular') {
+      const soloNumeros = value.replace(/[^\d\s-]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: soloNumeros }));
+      return;
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -28,7 +34,8 @@ export default function Asociarse() {
       setStatus('submitted');
       setFormData({
         nombre: '',
-        telefono: '',
+        codigoArea: '',
+        celular: '',
         email: '',
         reprocann: '',
         asunto: '',
@@ -41,7 +48,6 @@ export default function Asociarse() {
       }, 3000);
     }, 800);
   };
-
   return (
     <main className="admissions-main">
       <div className="admissions-container">
@@ -71,40 +77,60 @@ export default function Asociarse() {
               </div>
 
               <form className="admissions-form" onSubmit={handleSubmit}>
-                {/* Fila 1: Nombre y Teléfono */}
-                <div className="form-row-split">
+                {/* Fila 1: Nombre */}
+                <div className="form-group">
+                  <label htmlFor="nombre" className="form-label">
+                    NOMBRE *
+                  </label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    className="form-input"
+                    required
+                    placeholder="Tu nombre y apellido"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                {/* Fila 2: Teléfono (Código de Área + Celular) */}
+                <div className="form-row-phone">
                   <div className="form-group">
-                    <label htmlFor="nombre" className="form-label">
-                      NOMBRE *
+                    <label htmlFor="codigoArea" className="form-label">
+                      CÓD. ÁREA
                     </label>
                     <input
-                      type="text"
-                      id="nombre"
-                      name="nombre"
+                      type="tel"
+                      inputMode="numeric"
+                      id="codigoArea"
+                      name="codigoArea"
                       className="form-input"
-                      required
-                      placeholder="Tu nombre y apellido"
-                      value={formData.nombre}
+                      maxLength={5}
+                      placeholder="11 (sin 0)"
+                      value={formData.codigoArea}
                       onChange={handleChange}
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="telefono" className="form-label">
-                      TELÉFONO
+                    <label htmlFor="celular" className="form-label">
+                      CELULAR
                     </label>
                     <input
                       type="tel"
-                      id="telefono"
-                      name="telefono"
+                      inputMode="numeric"
+                      id="celular"
+                      name="celular"
                       className="form-input"
-                      placeholder="+54 9 11 ..."
-                      value={formData.telefono}
+                      maxLength={12}
+                      placeholder="1234 5678 (sin 15)"
+                      value={formData.celular}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
 
-                {/* Fila 2: Email */}
+                {/* Fila 3: Email */}
                 <div className="form-group">
                   <label htmlFor="email" className="form-label">
                     EMAIL *
@@ -121,7 +147,7 @@ export default function Asociarse() {
                   />
                 </div>
 
-                {/* Fila 3: Estado REPROCANN */}
+                {/* Fila 4: Estado REPROCANN */}
                 <div className="form-group">
                   <label htmlFor="reprocann" className="form-label">
                     ESTADO REPROCANN
@@ -143,7 +169,7 @@ export default function Asociarse() {
                   </select>
                 </div>
 
-                {/* Fila 4: Asunto */}
+                {/* Fila 5: Asunto */}
                 <div className="form-group">
                   <label htmlFor="asunto" className="form-label">
                     ASUNTO *
@@ -160,7 +186,7 @@ export default function Asociarse() {
                   />
                 </div>
 
-                {/* Fila 5: Consulta */}
+                {/* Fila 6: Consulta */}
                 <div className="form-group">
                   <label htmlFor="consulta" className="form-label">
                     CONSULTA *

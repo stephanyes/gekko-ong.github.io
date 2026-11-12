@@ -38,15 +38,8 @@
   --btn-secondary: rgba(248, 249, 246, 0.12);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  box-shadow: none !important;
-}
-
 /* ==========================================================================
-   Resets de Contención de Pantalla
+   Resets de Contención de Pantalla (Compatible con position: sticky)
    ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -58,7 +51,7 @@
 html, body, #root, main {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 
@@ -74,33 +67,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  min-height: 100vh;
-  background-color: var(--bg-page);
-  color: var(--ink);
-  font-family: var(--font-ui);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-html, body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-#root {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-  position: relative;
 }
 
 /* ==========================================================================
@@ -109,7 +75,7 @@ html, body {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -286,10 +252,6 @@ html, body {
     display: none !important;
   }
 
-  .burger-btn {
-    display: flex !important;
-  }
-
   .theme-toggle-btn {
     width: 44px;
     height: 44px;
@@ -338,11 +300,23 @@ html, body {
     margin-top: 20px;
   }
 
+  .burger-btn {
+    display: flex !important;
+    width: 44px;
+    height: 44px;
+    gap: 5px;
+  }
+
+  .burger-line {
+    width: 20px;
+  }
+
   .mobile-actions .pill-btn {
     display: inline-flex !important;
     width: 100%;
     text-align: center;
-    padding: 16px;
+    font-size: 16px;
+    padding: 15px 20px;
   }
 }
 

@@ -215,6 +215,18 @@
   will-change: transform, opacity;
 }
 
+.glass-card-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+}
+
+.glass-card-link:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
 .card-top {
   display: flex;
   align-items: center;
@@ -279,7 +291,7 @@
 @media (orientation: portrait) {
   .hero-stage {
     height: auto;
-    min-height: 100dvh; /* Usa dynamic viewport height para mobiles modernos */
+    min-height: auto; /* Elimina el espacio sobrante debajo de las pills */
     display: flex;
     flex-direction: column;
   }
@@ -288,9 +300,9 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* <-- Cambiado: ya no estira la foto al medio */
-    padding: 60px 14px 16px;     /* <-- Ajustado el padding inferior */
-    gap: clamp(80px, 2.5dvh, 150px); /* <-- Se adapta solo entre 12px y 24px */
+    justify-content: flex-start;
+    padding: 44px 14px 28px; /* 28px de aire limpio debajo de las pills */
+    gap: clamp(48px, 8dvh, 80px);
   }
 
   .hero-title {
@@ -395,8 +407,8 @@
   }
 
   .backdrop-container {
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
   }
 
   .backdrop-media {

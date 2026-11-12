@@ -189,7 +189,7 @@ export default function Home() {
           </div>
 
           <div className="metrics-zone" aria-label="Características destacadas">
-            <article className="glass-card" id="card1">
+            <Link to="/geneticas" className="glass-card glass-card-link" id="card1">
               <div className="card-top">
                 <span className="card-label">GENÉTICAS</span>
                 <svg className="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -207,10 +207,10 @@ export default function Home() {
                 <img className="card-inner-img dark-only" src={cogolloDark} alt="Genética Cuban Affair" />
               </div>
 
-              <div className="card-bottom">CUBAN AFFAIR</div>
-            </article>
+              <div className="card-bottom">CUBAN AFFAIR ↗</div>
+            </Link>
 
-            <article className="glass-card" id="card2">
+            <Link to="/cultivos" className="glass-card glass-card-link" id="card2">
               <div className="card-top">
                 <span className="card-label">CULTIVO</span>
                 <svg className="card-icon" viewBox="0 0 24 24">
@@ -219,10 +219,10 @@ export default function Home() {
                 </svg>
               </div>
               <div className="card-main">Indoor</div>
-              <div className="card-bottom">PARÁMETROS CONTROLADOS</div>
-            </article>
+              <div className="card-bottom">PARÁMETROS CONTROLADOS ↗</div>
+            </Link>
 
-            <article className="glass-card" id="card3">
+            <Link to="/#faq" className="glass-card glass-card-link" id="card3">
               <div className="card-top">
                 <span className="card-label">ENTREGAS</span>
                 <svg className="card-icon" viewBox="0 0 24 24">
@@ -234,8 +234,8 @@ export default function Home() {
                 </svg>
               </div>
               <div className="card-main">Directas</div>
-              <div className="card-bottom">CABA PUERTA A PUERTA</div>
-            </article>
+              <div className="card-bottom">CABA PUERTA A PUERTA ↗</div>
+            </Link>
           </div>
         </section>
       </section>

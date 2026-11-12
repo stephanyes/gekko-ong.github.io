@@ -268,3 +268,16 @@
     text-align: center;
   }
 }
+
+.form-row-phone {
+  display: grid;
+  grid-template-columns: 135px 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .form-row-phone {
+    grid-template-columns: 115px 1fr;
+    gap: 0.75rem;
+  }
+}
